@@ -12,14 +12,17 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class ScissorsEntity extends Monster {
 
@@ -30,13 +33,13 @@ public class ScissorsEntity extends Monster {
         super(entityType, level);
     }
 
-    @Override
     //通常時の行動 - Normal behavior
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class,6.0F));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0F));
         this.addAttackGoals();
     }
 
@@ -45,7 +48,14 @@ public class ScissorsEntity extends Monster {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 2.0F,true));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class,false));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class,true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class,true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Animal.class,true));
+    }
+
+    //武器 - Main-hand Weapon
+    @Override
+    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
     }
 
     //ステータス - Status
@@ -55,19 +65,6 @@ public class ScissorsEntity extends Monster {
                 .add(Attributes.MOVEMENT_SPEED, 0.35F)
                 .add(Attributes.ATTACK_DAMAGE, 5.0)
                 .add(Attributes.FOLLOW_RANGE, 12.0);
-    }
-
-    //メインハンドの武器 - Mainhand weapon
-    @Override
-    protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.STONE_SWORD));
-    }
-
-    @Nullable
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        SpawnGroupData spawngloupdata = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
-        return spawngloupdata;
     }
 
     //足音の設定 - Footsteps Setting
@@ -114,4 +111,13 @@ public class ScissorsEntity extends Monster {
             this.setupAnimationStates();
         }
     }
+
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData spawngroupdata = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
+        this.populateDefaultEquipmentSlots(random, difficulty);
+        return spawngroupdata;
+    }
+
 }
