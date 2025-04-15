@@ -1,5 +1,7 @@
 package com.enokidake1997.scissorsbaptism.entity;
 
+import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
+import com.enokidake1997.scissorsbaptism.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
@@ -18,6 +20,8 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -55,7 +59,7 @@ public class ScissorsEntity extends Monster {
     //武器 - Main-hand Weapon
     @Override
     protected void populateDefaultEquipmentSlots(RandomSource random, DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.NETHERITE_SWORD));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack((ItemLike) ScissorsItems.SCISSORS_SWORD));
     }
 
     //ステータス - Status

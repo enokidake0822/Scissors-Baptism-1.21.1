@@ -1,8 +1,8 @@
 package com.enokidake1997.scissorsbaptism;
 
 import com.enokidake1997.scissorsbaptism.entity.ScissorsEntities;
-import com.enokidake1997.scissorsbaptism.entity.ScissorsEntity;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsRenderer;
+import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import org.slf4j.Logger;
 
@@ -40,6 +40,7 @@ public class ScissorsBaptism  {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ScissorsItems.register(modEventBus);
         ScissorsEntities.register(modEventBus);
 
         // Register the item to a creative tab
@@ -62,7 +63,7 @@ public class ScissorsBaptism  {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            EntityRenderers.register(ScissorsEntities.SCISSORS.get(), ScissorsRenderer::new);
+            EntityRenderers.register(ScissorsEntities.SCISSORS_ENTITY.get(), ScissorsRenderer::new);
         }
     }
 }

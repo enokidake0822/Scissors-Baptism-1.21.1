@@ -12,7 +12,7 @@ public class ScissorsBusEvents {
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ScissorsEntities.SCISSORS.get(), ScissorsRenderer::new);
+        event.registerEntityRenderer(ScissorsEntities.SCISSORS_ENTITY.get(), ScissorsRenderer::new);
     }
 
     @SubscribeEvent
@@ -22,7 +22,7 @@ public class ScissorsBusEvents {
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(ScissorsEntities.SCISSORS.get(), ScissorsEntity.createAttributes().build());
+        event.put(ScissorsEntities.SCISSORS_ENTITY.get(), ScissorsEntity.createAttributes().build());
     }
 
 }

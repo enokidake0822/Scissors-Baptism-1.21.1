@@ -14,7 +14,7 @@ public class ScissorsEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, ScissorsBaptism.MOD_ID);
 
-    public static final Supplier<EntityType<ScissorsEntity>> SCISSORS =
+    public static final Supplier<EntityType<ScissorsEntity>> SCISSORS_ENTITY =
             ENTITY_TYPES.register("scissors", () -> EntityType.Builder.of(ScissorsEntity::new, MobCategory.MONSTER)
                     .sized(0.6F,1.8F)
                     .eyeHeight(1.8F)
