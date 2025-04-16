@@ -1,6 +1,6 @@
 package com.enokidake1997.scissorsbaptism.entity;
 
-import com.enokidake1997.scissorsbaptism.effect.BloodingEffect;
+import com.enokidake1997.scissorsbaptism.effect.ScissorsEffects;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -71,7 +71,7 @@ public class ScissorsEntity extends Monster {
             return false;
         } else {
             if (entity instanceof LivingEntity && i == 0) {
-                ((LivingEntity)entity).addEffect(new MobEffectInstance(BloodingEffect.BLOODING, 100), this);
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(ScissorsEffects.BLOODING, 100), this);
             }
             return true;
         }
