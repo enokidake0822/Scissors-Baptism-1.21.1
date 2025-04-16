@@ -1,14 +1,11 @@
 package com.enokidake1997.scissorsbaptism;
 
-import com.enokidake1997.scissorsbaptism.effect.BloodingEffect;
+import com.enokidake1997.scissorsbaptism.effect.ScissorsEffects;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsEntities;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsRenderer;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
-import net.minecraft.client.renderer.entity.EntityRenderers;
-import org.slf4j.Logger;
-
 import com.mojang.logging.LogUtils;
-
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -21,6 +18,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(ScissorsBaptism.MOD_ID)
@@ -43,7 +41,7 @@ public class ScissorsBaptism  {
 
         ScissorsItems.register(modEventBus);
         ScissorsEntities.register(modEventBus);
-        BloodingEffect.register(modEventBus);
+        ScissorsEffects.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
