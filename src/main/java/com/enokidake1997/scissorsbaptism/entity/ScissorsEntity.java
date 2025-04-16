@@ -1,13 +1,16 @@
 package com.enokidake1997.scissorsbaptism.entity;
 
+import com.enokidake1997.scissorsbaptism.effect.BloodingEffect;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
-import com.enokidake1997.scissorsbaptism.util.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -19,8 +22,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -62,6 +63,20 @@ public class ScissorsEntity extends Monster {
         this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack((ItemLike) ScissorsItems.SCISSORS_SWORD));
     }
 
+    //プレイヤーにデバフを与える - Debuff the player
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        int i = random.nextInt(3);
+        if (!super.doHurtTarget(entity)) {
+            return false;
+        } else {
+            if (entity instanceof LivingEntity && i == 0) {
+                ((LivingEntity)entity).addEffect(new MobEffectInstance(BloodingEffect.BLOODING, 100), this);
+            }
+            return true;
+        }
+    }
+
     //ステータス - Status
     public static AttributeSupplier.Builder createAttributes(){
         return Monster.createLivingAttributes()
@@ -69,6 +84,30 @@ public class ScissorsEntity extends Monster {
                 .add(Attributes.MOVEMENT_SPEED, 0.35F)
                 .add(Attributes.ATTACK_DAMAGE, 5.0)
                 .add(Attributes.FOLLOW_RANGE, 12.0);
+    }
+
+    //ダメージの無効化 - Damage nullification
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        if (source.is(DamageTypeTags.IS_FALL)
+                || source.is(DamageTypeTags.IS_FIRE)
+                || source.is(DamageTypeTags.IS_DROWNING)
+                || source.is(DamageTypeTags.IS_FREEZING)
+                || source.is(DamageTypeTags.IS_EXPLOSION))
+            return true;
+        return super.isInvulnerableTo(source);
+    }
+
+    //炎上状態の削除 - Flame removal
+    @Override
+    public boolean isOnFire() {
+        return false;
+    }
+
+    //攻撃時の音 - Attack Sound
+    @Override
+    protected void playAttackSound() {
+        this.playSound(SoundEvents.PLAYER_ATTACK_SWEEP);
     }
 
     //足音の設定 - Footsteps Setting

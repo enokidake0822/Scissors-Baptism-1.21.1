@@ -1,5 +1,6 @@
 package com.enokidake1997.scissorsbaptism;
 
+import com.enokidake1997.scissorsbaptism.effect.BloodingEffect;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsEntities;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsRenderer;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
@@ -42,6 +43,7 @@ public class ScissorsBaptism  {
 
         ScissorsItems.register(modEventBus);
         ScissorsEntities.register(modEventBus);
+        BloodingEffect.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);

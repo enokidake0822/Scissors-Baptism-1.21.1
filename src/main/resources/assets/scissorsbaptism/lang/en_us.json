@@ -1,3 +1,5 @@
 {
-  "item.scissorsbaptism.scissorsword": "scissorsword"
+  "entity.scissorsbaptism.scissors": "Scissors",
+  "item.scissorsbaptism.scissorsword": "Scissorsword",
+  "effect.scissorsbaptism.blooding": "Blooding"
 }
