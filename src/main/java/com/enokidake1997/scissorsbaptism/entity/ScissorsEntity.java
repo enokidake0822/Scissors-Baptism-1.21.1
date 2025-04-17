@@ -2,11 +2,16 @@ package com.enokidake1997.scissorsbaptism.entity;
 
 import com.enokidake1997.scissorsbaptism.effect.ScissorsEffects;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
+import com.enokidake1997.scissorsbaptism.particle.BloodParticle;
+import com.enokidake1997.scissorsbaptism.particle.ScissorsParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,6 +38,7 @@ public class ScissorsEntity extends Monster {
 
     public final AnimationState idleAnimationState = new AnimationState();
     private int idleAnimationTimeout = 0;
+    private Level level;
 
     public ScissorsEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -71,7 +77,9 @@ public class ScissorsEntity extends Monster {
             return false;
         } else {
             if (entity instanceof LivingEntity && i == 0) {
-                ((LivingEntity) entity).addEffect(new MobEffectInstance(ScissorsEffects.BLOODING, 100), this);
+                ((LivingEntity)entity).addEffect(new MobEffectInstance(ScissorsEffects.BLOODING, 100), this);
+                ((ServerLevel)this.level())
+                        .sendParticles(ScissorsParticles.BLOOD_PARTICLE.get(), entity.getX(), entity.getY(0.5), entity.getZ(), 30, 0.1, 0.0, 0.1, 0.2);
             }
             return true;
         }

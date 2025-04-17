@@ -4,8 +4,14 @@ import com.enokidake1997.scissorsbaptism.effect.ScissorsEffects;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsEntities;
 import com.enokidake1997.scissorsbaptism.entity.ScissorsRenderer;
 import com.enokidake1997.scissorsbaptism.item.ScissorsItems;
-import com.mojang.logging.LogUtils;
+import com.enokidake1997.scissorsbaptism.particle.BloodParticle;
+import com.enokidake1997.scissorsbaptism.particle.ScissorsParticles;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import org.slf4j.Logger;
+
+import com.mojang.logging.LogUtils;
+
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,7 +24,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(ScissorsBaptism.MOD_ID)
@@ -42,6 +47,7 @@ public class ScissorsBaptism  {
         ScissorsItems.register(modEventBus);
         ScissorsEntities.register(modEventBus);
         ScissorsEffects.register(modEventBus);
+        ScissorsParticles.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -64,6 +70,11 @@ public class ScissorsBaptism  {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ScissorsEntities.SCISSORS_ENTITY.get(), ScissorsRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ScissorsParticles.BLOOD_PARTICLE.get(), BloodParticle.Provider::new);
         }
     }
 }
